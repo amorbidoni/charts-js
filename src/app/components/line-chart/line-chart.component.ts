@@ -73,12 +73,13 @@ export class LineChartComponent {
     ]
   };
   data2: ChartData = {
-    labels: ['2022-05-10', '2022-05-11', '2022-05-12','2022-05-13',
+    // TODO: que pasa si nos faltan datos en un grafico? 
+    labels: ['2022-05-10', '2022-05-11','2022-05-12','2022-05-13',
     '2022-05-14', '2022-05-15', '2022-05-16','2022-05-17', ],
     datasets: [
       {
         label: 'Dataset 1',
-        data:[40,20, 15, 33, 25,
+        data:[40,20, 15, 25,
         33, 23, 49],
         borderColor: 'rgb(163, 59, 66)',
         backgroundColor: 'rgba(163, 59, 66, 0.2)',
@@ -111,7 +112,7 @@ export class LineChartComponent {
   private tooltipLine = {
     id:'tooltipLine',
     beforeDraw : (chart:any) =>{
-      if(chart.tooltip._active && chart.tooltip._active.length){
+      if(chart.tooltip && chart.tooltip._active && chart.tooltip._active.length){
         const ctx = chart.ctx;
         ctx.save();
         const activePoint = chart.tooltip._active[0];
