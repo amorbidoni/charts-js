@@ -16,15 +16,15 @@ export class LineChartComponent {
   createChart(){
     this.chart = new Chart("MyLineChart", this.config);
     this.chart2 = new Chart("MyLineChart2", this.config2);
-    // this.chart.canvas.onmousemove = this.hover1;
+    this.chart.canvas.onmousemove = this.hover1;
   }
   
   hover1(move:any){
     const chartInstance = Chart.getChart('MyLineChart');
     const chart2Instance = Chart.getChart('MyLineChart2');
-    const points = chartInstance!.getElementsAtEventForMode(move, 'nearest', { intersect: true }, true);
-  
-    if(points[0]){
+    const points = chartInstance?.getActiveElements();
+    console.log()
+    if(points && points[0]){
       const dataset = points[0].datasetIndex;
       const datapoint = points[0].index; 
       chart2Instance!.tooltip!.setActiveElements([
@@ -96,14 +96,14 @@ export class LineChartComponent {
         const ctx = chart.ctx;
         ctx.save();
         const activePoint = chart.tooltip._active[0];
-        const chart2Instance = Chart.getChart('MyLineChart2');
-        chart2Instance!.tooltip!.setActiveElements([
-          {datasetIndex: 0, index: activePoint.index}
-        ], chart);
-        chart2Instance!.setActiveElements([
-          {datasetIndex:0, index:activePoint.index}
-        ]);
-        chart2Instance!.update()
+        // const chart2Instance = Chart.getChart('MyLineChart2');
+        // chart2Instance!.tooltip!.setActiveElements([
+        //   {datasetIndex: 0, index: activePoint.index}
+        // ], chart);
+        // chart2Instance!.setActiveElements([
+        //   {datasetIndex:0, index:activePoint.index}
+        // ]);
+        // chart2Instance!.update()
         // console.log(chart.chartArea);
         // codigo de canvas para dibujar una linea
         ctx.beginPath();
