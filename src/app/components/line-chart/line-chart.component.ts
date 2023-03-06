@@ -9,20 +9,21 @@ import { ChartConfiguration, ChartData } from 'chart.js/dist/types/index';
 export class LineChartComponent {
   ngOnInit(): void {
     this.createChart()
-
+    
   }
   public chart!: Chart;
   public chart2!: Chart;
   createChart(){
-  
     this.chart = new Chart("MyLineChart", this.config);
     this.chart2 = new Chart("MyLineChart2", this.config2);
-    this.chart.canvas.onmousemove = this.hover1;
+    // this.chart.canvas.onmousemove = this.hover1;
   }
+  
   hover1(move:any){
     const chartInstance = Chart.getChart('MyLineChart');
     const chart2Instance = Chart.getChart('MyLineChart2');
     const points = chartInstance!.getElementsAtEventForMode(move, 'nearest', { intersect: true }, true);
+  
     if(points[0]){
       const dataset = points[0].datasetIndex;
       const datapoint = points[0].index; 
@@ -59,17 +60,7 @@ export class LineChartComponent {
         // pointRadius:10,
         // pointHoverRadius:10
       },
-      // {
-      //   label: 'Dataset 2',
-      //   data:[542, 542, 536, 327, 17,
-      //   0.00, 538, 541],
-      //   borderColor: 'rgb(59, 66, 163)',
-      //   backgroundColor: 'rgba(59, 66, 163, 0.2)',
-      //   yAxisID: 'y1',
-      //   tension:0.4,
-      //   fill: true,
-      //   borderWidth:1
-      // }
+
     ]
   };
   data2: ChartData = {
@@ -80,7 +71,7 @@ export class LineChartComponent {
       {
         label: 'Dataset 1',
         data:[40,20, 15, 25,
-        33, 23, 49],
+        33, 23, 49, 30],
         borderColor: 'rgb(163, 59, 66)',
         backgroundColor: 'rgba(163, 59, 66, 0.2)',
         yAxisID: 'y',
@@ -94,20 +85,9 @@ export class LineChartComponent {
         // pointRadius:10,
         // pointHoverRadius:10
       },
-      // {
-      //   label: 'Dataset 2',
-      //   data:[542, 542, 536, 327, 17,
-      //   0.00, 538, 541],
-      //   borderColor: 'rgb(59, 66, 163)',
-      //   backgroundColor: 'rgba(59, 66, 163, 0.2)',
-      //   yAxisID: 'y1',
-      //   tension:0.4,
-      //   fill: true,
-      //   borderWidth:1
-      // }
     ]
   };
-
+ 
   // tooltipLine
   private tooltipLine = {
     id:'tooltipLine',
@@ -116,6 +96,14 @@ export class LineChartComponent {
         const ctx = chart.ctx;
         ctx.save();
         const activePoint = chart.tooltip._active[0];
+        const chart2Instance = Chart.getChart('MyLineChart2');
+        chart2Instance!.tooltip!.setActiveElements([
+          {datasetIndex: 0, index: activePoint.index}
+        ], chart);
+        chart2Instance!.setActiveElements([
+          {datasetIndex:0, index:activePoint.index}
+        ]);
+        chart2Instance!.update()
         // console.log(chart.chartArea);
         // codigo de canvas para dibujar una linea
         ctx.beginPath();
